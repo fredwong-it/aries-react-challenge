@@ -15,10 +15,15 @@ const calculateLongPutProfit = (price: number, strike: number, premium: number) 
   return Math.max(strike - price, 0) - premium;
 };
 
-export const generateData = (options: OptionType[]) => {
+export const generateData = (options: OptionType[], minMaxX = 30) => {
+  const sum = options.reduce((sum, option) => sum + option.strike_price, 0);
+  const average = Math.round((sum / options.length) / 10) * 10;
+  const startPrice = average - minMaxX;
+  const endPrice = average + minMaxX;
+
   const data = []
 
-  for (let price = 60; price <= 140; price += 10) {
+  for (let price = startPrice; price <= endPrice; price += 10) {
     let totalProfit = 0
     let optionsProfitMap = {}
 
