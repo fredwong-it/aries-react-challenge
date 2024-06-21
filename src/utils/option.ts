@@ -31,6 +31,10 @@ const calculateLongPutProfit = (
   return Math.max(strike - price, 0) - premium;
 };
 
+type optionProfitMapType = {
+  [key: string]: number;
+};
+
 export const generateData = (options: OptionType[], minMaxX = 30) => {
   const sum = options.reduce((sum, option) => sum + option.strike_price, 0);
   const average = Math.round(sum / options.length / 10) * 10;
@@ -38,10 +42,11 @@ export const generateData = (options: OptionType[], minMaxX = 30) => {
   const endPrice = average + minMaxX;
 
   const data = [];
+  let edgeProfitData: number[] = [];
 
   for (let price = startPrice; price <= endPrice; price += 10) {
     let totalProfit = 0;
-    let optionsProfitMap = {};
+    let optionProfitMap: optionProfitMapType = {};
 
     for (const { strike_price, type, bid, ask, long_short } of options) {
       const key = `${long_short}_${type}_${strike_price}`;
@@ -57,18 +62,37 @@ export const generateData = (options: OptionType[], minMaxX = 30) => {
         optionProfit = calculateShortPutProfit(price, strike_price, bid);
       }
 
-      optionsProfitMap = {
-        ...optionsProfitMap,
+      optionProfitMap = {
+        ...optionProfitMap,
         [key]: optionProfit,
       };
       totalProfit += optionProfit;
     }
 
-    data.push({ price, ...optionsProfitMap, totalProfit });
+    if (price === startPrice || price === endPrice) {
+      edgeProfitData = [
+        ...edgeProfitData,
+        totalProfit,
+        ...Object.values(optionProfitMap),
+      ];
+    }
+
+    data.push({ price, ...optionProfitMap, totalProfit });
   }
 
-  return data;
+  const minY = Math.min(...edgeProfitData);
+  const maxY = Math.max(...edgeProfitData);
+  const intervalY =
+    Math.round(Math.max(Math.abs(minY), Math.abs(maxY)) / 10) * 10;
+
+  return {
+    data,
+    minY: intervalY * -1,
+    maxY: intervalY,
+  };
 };
+
+export const getMinMaxFromData = () => {};
 
 export const optionColorMap = (
   long_short: LongShortType,

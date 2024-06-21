@@ -17,7 +17,7 @@ export const MinMaxDropdown = ({ label, value = 30, onChange }: MinMaxDropdownTy
       </div>
       <select className="cursor-pointer" value={value} onChange={onChange}>
         {options.map((option) =>
-          <option value={option}>{option}</option>
+          <option key={option} value={option}>{option}</option>
         )}
       </select>
     </div>

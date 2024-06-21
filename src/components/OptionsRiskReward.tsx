@@ -1,4 +1,4 @@
-import { OptionType } from "@/types/option"
+import { LongShortType, OptionType, OptionTypeType } from "@/types/option"
 import { generateData, optionColorMap } from "@/utils/option";
 import { capitalizeFirstLetter } from "@/utils/string";
 import { LineChart, Line, XAxis, YAxis, Tooltip, CartesianGrid, ResponsiveContainer, Legend, ReferenceLine, Label } from 'recharts';
@@ -6,13 +6,10 @@ import { LineChart, Line, XAxis, YAxis, Tooltip, CartesianGrid, ResponsiveContai
 type OptionsRiskRewardType = {
   options: OptionType[];
   minMaxX?: number;
-  minMaxY?: number;
 }
 
-export const OptionsRiskReward = ({ options, minMaxX = 30, minMaxY = 50 }: OptionsRiskRewardType) => {
-  const data = generateData(options, minMaxX)
-  const maxY = minMaxY;
-  const minY = minMaxY * -1;
+export const OptionsRiskReward = ({ options, minMaxX = 30 }: OptionsRiskRewardType) => {
+  const { data, maxY, minY } = generateData(options, minMaxX)
   const yTicks = Array.from({ length: (maxY - minY) / 10 + 1 }, (_, i) => minY + i * 10);
   const optionsKeys = Object.keys(data[0]).filter((key) => !["price", "totalProfit"].includes(key));
 
@@ -37,7 +34,7 @@ export const OptionsRiskReward = ({ options, minMaxX = 30, minMaxY = 50 }: Optio
           {optionsKeys.map((key) => {
             const [long_short, type, strike] = key.split('_')
             const name = `${capitalizeFirstLetter(long_short)} ${capitalizeFirstLetter(type)} (Strike ${strike})`
-            const color = optionColorMap(long_short, type)
+            const color = optionColorMap(long_short as LongShortType, type as OptionTypeType)
 
             return (
               <Line key={key} type="monotone" name={name} dataKey={key} stroke={color} strokeWidth={2} />
