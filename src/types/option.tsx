@@ -1,6 +1,6 @@
 
 
-export type OptionsType = {
+export type OptionType = {
   strike_price: number;
   type: 'Call' | 'Put';
   bid: number;

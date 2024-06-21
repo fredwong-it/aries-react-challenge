@@ -1,6 +1,6 @@
-import { OptionsType } from "@/types/options";
+import { OptionType } from "@/types/option";
 
-export const mockOptions: OptionsType[] = [
+export const mockOptions: OptionType[] = [
   {
     "strike_price": 100,
     "type": "Call",
