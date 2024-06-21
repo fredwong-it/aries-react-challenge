@@ -7,17 +7,17 @@ type MinMaxDropdownType = {
   onChange: (event: ChangeEvent<HTMLSelectElement>) => void;
 }
 
-export const MinMaxDropdown = ({ label, value, onChange }: MinMaxDropdownType) => {
+export const MinMaxDropdown = ({ label, value = 30, onChange }: MinMaxDropdownType) => {
   return (
     <div className="flex gap-2">
-      <div>
+      <div data-testid="label">
         {label}
       </div>
       <select className="cursor-pointer" value={value} onChange={onChange}>
-        <option value="30">30</option>
-        <option value="40">40</option>
-        <option value="50">50</option>
-        <option value="60">60</option>
+        <option value={30}>30</option>
+        <option value={40}>40</option>
+        <option value={50}>50</option>
+        <option value={60}>60</option>
       </select>
     </div>
   )

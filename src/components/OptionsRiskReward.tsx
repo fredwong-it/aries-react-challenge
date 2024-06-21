@@ -40,7 +40,7 @@ export const OptionsRiskReward = ({ options, minMaxX = 30, minMaxY = 50 }: Optio
             const color = optionColorMap(long_short, type)
 
             return (
-              <Line type="monotone" name={name} dataKey={key} stroke={color} strokeWidth={2} />
+              <Line key={key} type="monotone" name={name} dataKey={key} stroke={color} strokeWidth={2} />
             )
           })}
         </LineChart>
