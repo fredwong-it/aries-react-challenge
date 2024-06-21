@@ -3,9 +3,11 @@ import { ChangeEvent } from "react";
 
 type MinMaxDropdownType = {
   label: string;
-  value: number;
+  value?: number;
   onChange: (event: ChangeEvent<HTMLSelectElement>) => void;
 }
+
+const options = [30, 40, 50, 60];
 
 export const MinMaxDropdown = ({ label, value = 30, onChange }: MinMaxDropdownType) => {
   return (
@@ -14,10 +16,9 @@ export const MinMaxDropdown = ({ label, value = 30, onChange }: MinMaxDropdownTy
         {label}
       </div>
       <select className="cursor-pointer" value={value} onChange={onChange}>
-        <option value={30}>30</option>
-        <option value={40}>40</option>
-        <option value={50}>50</option>
-        <option value={60}>60</option>
+        {options.map((option) =>
+          <option value={option}>{option}</option>
+        )}
       </select>
     </div>
   )
