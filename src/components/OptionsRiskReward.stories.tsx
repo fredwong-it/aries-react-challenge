@@ -7,4 +7,4 @@ export default {
   component: OptionsRiskRewardComponent,
 };
 
-export const OptionsRiskReward = () => <OptionsRiskRewardComponent options={mockOptions} />
+export const OptionsRiskReward = () => <OptionsRiskRewardComponent options={mockOptions} minX={60} maxX={130} />

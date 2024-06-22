@@ -3,7 +3,7 @@ import { generateData, optionColorMap } from "@/utils//option";
 
 describe("generateData", () => {
   it("minMax default", () => {
-    const { data, maxY, minY } = generateData(mockOptions);
+    const { data, maxY, minY } = generateData(mockOptions, 70, 130);
 
     expect(data.length).toEqual(7);
     expect(data[0].price).toEqual(70);
@@ -14,7 +14,7 @@ describe("generateData", () => {
   });
 
   it("minMax 20", () => {
-    const { data, maxY, minY } = generateData(mockOptions, 40);
+    const { data, maxY, minY } = generateData(mockOptions, 60, 140);
 
     expect(data.length).toEqual(9);
     expect(data[0].price).toEqual(60);

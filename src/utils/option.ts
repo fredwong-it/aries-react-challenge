@@ -35,16 +35,22 @@ type optionProfitMapType = {
   [key: string]: number;
 };
 
-export const generateData = (options: OptionType[], minMaxX = 30) => {
+export const avgStrikePrice = (options: OptionType[]) => {
   const sum = options.reduce((sum, option) => sum + option.strike_price, 0);
   const average = Math.round(sum / options.length / 10) * 10;
-  const startPrice = average - minMaxX;
-  const endPrice = average + minMaxX;
 
+  return average;
+};
+
+export const generateData = (
+  options: OptionType[],
+  minX: number,
+  maxX: number
+) => {
   const data = [];
   let edgeProfitData: number[] = [];
 
-  for (let price = startPrice; price <= endPrice; price += 10) {
+  for (let price = minX; price <= maxX; price += 10) {
     let totalProfit = 0;
     let optionProfitMap: optionProfitMapType = {};
 
@@ -69,7 +75,7 @@ export const generateData = (options: OptionType[], minMaxX = 30) => {
       totalProfit += optionProfit;
     }
 
-    if (price === startPrice || price === endPrice) {
+    if (price === minX || price === maxX) {
       edgeProfitData = [
         ...edgeProfitData,
         totalProfit,
@@ -91,8 +97,6 @@ export const generateData = (options: OptionType[], minMaxX = 30) => {
     maxY: intervalY,
   };
 };
-
-export const getMinMaxFromData = () => {};
 
 export const optionColorMap = (
   long_short: LongShortType,

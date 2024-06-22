@@ -2,16 +2,19 @@ import { Inter } from "next/font/google";
 import { OptionsRiskReward } from "@/components/OptionsRiskReward";
 import { mockOptions } from "@/utils/mockData";
 import { ChangeEvent, useState } from "react";
-import { MinMaxDropdown } from "@/components/MinMaxDropdown";
+import { RangeDropdown } from "@/components/RangeDropdown";
+import { avgStrikePrice } from "@/utils/option";
 
 const inter = Inter({ subsets: ["latin"] });
 
 export default function Home() {
-  const [minMaxX, setMinMaxX] = useState(30)
+  const [range, setRange] = useState(30)
 
   const handleChangeX = (event: ChangeEvent<HTMLSelectElement>) => {
-    setMinMaxX(Number(event.target.value))
+    setRange(Number(event.target.value))
   }
+
+  const base = avgStrikePrice(mockOptions);
 
   return (
     <main
@@ -19,9 +22,9 @@ export default function Home() {
     >
       <h1 className="text-3xl mb-4">Risk & Reward Graph for Options Strategies</h1>
       <div className="flex gap-10 w-full">
-        <MinMaxDropdown label="Stock Price" value={minMaxX} onChange={handleChangeX} />
+        <RangeDropdown label="Stock Price Range" value={range} onChange={handleChangeX} midPoint={base} />
       </div>
-      <OptionsRiskReward options={mockOptions} minMaxX={minMaxX} />
+      <OptionsRiskReward options={mockOptions} minX={base - range} maxX={base + range} />
     </main>
   );
 }
