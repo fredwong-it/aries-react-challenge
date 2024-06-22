@@ -1,5 +1,9 @@
 import { mockOptions } from "@/utils/mockData";
-import { generateData, optionColorMap } from "@/utils//option";
+import {
+  generateData,
+  getAvgStrikePrice,
+  optionColorMap,
+} from "@/utils//option";
 
 describe("generateData", () => {
   it("minMax default", () => {
@@ -24,28 +28,22 @@ describe("generateData", () => {
   });
 });
 
-describe("optionColorMap", () => {
-  it("long call", () => {
-    const color = optionColorMap("long", "Call");
+describe("getAvgStrikePrice", () => {
+  it("test 1", () => {
+    const avgStrikePrice = getAvgStrikePrice(mockOptions);
 
-    expect(color).toEqual("#00bfff");
+    expect(avgStrikePrice).toEqual(102.625);
   });
 
-  it("short call", () => {
-    const color = optionColorMap("short", "Call");
+  it("test 2", () => {
+    const avgStrikePrice = getAvgStrikePrice(mockOptions.slice(3));
 
-    expect(color).toEqual("#dc143c");
+    expect(avgStrikePrice).toEqual(105);
   });
 
-  it("long put", () => {
-    const color = optionColorMap("long", "Put");
+  it("test 3", () => {
+    const avgStrikePrice = getAvgStrikePrice(mockOptions.slice(1));
 
-    expect(color).toEqual("#008080");
-  });
-
-  it("short put", () => {
-    const color = optionColorMap("short", "Put");
-
-    expect(color).toEqual("#daa520");
+    expect(avgStrikePrice).toEqual(103.5);
   });
 });

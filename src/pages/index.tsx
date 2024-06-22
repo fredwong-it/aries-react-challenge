@@ -3,7 +3,8 @@ import { OptionsRiskReward } from "@/components/OptionsRiskReward";
 import { mockOptions } from "@/utils/mockData";
 import { ChangeEvent, useState } from "react";
 import { RangeDropdown } from "@/components/RangeDropdown";
-import { avgStrikePrice } from "@/utils/option";
+import { getAvgStrikePrice } from "@/utils/option";
+import { roundToNearestTen } from "@/utils/number";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -14,7 +15,8 @@ export default function Home() {
     setRange(Number(event.target.value))
   }
 
-  const base = avgStrikePrice(mockOptions);
+  const avgStrikePrice = getAvgStrikePrice(mockOptions);
+  const base = roundToNearestTen(avgStrikePrice);
 
   return (
     <main

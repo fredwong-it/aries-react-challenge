@@ -35,9 +35,9 @@ type optionProfitMapType = {
   [key: string]: number;
 };
 
-export const avgStrikePrice = (options: OptionType[]) => {
+export const getAvgStrikePrice = (options: OptionType[]) => {
   const sum = options.reduce((sum, option) => sum + option.strike_price, 0);
-  const average = Math.round(sum / options.length / 10) * 10;
+  const average = sum / options.length; //Math.round(sum / options.length / 10) * 10;
 
   return average;
 };
@@ -96,23 +96,4 @@ export const generateData = (
     minY: intervalY * -1,
     maxY: intervalY,
   };
-};
-
-export const optionColorMap = (
-  long_short: LongShortType,
-  type: OptionTypeType
-) => {
-  let color;
-
-  if (type === "Call" && long_short === "long") {
-    color = "#00bfff";
-  } else if (type === "Call" && long_short === "short") {
-    color = "#dc143c";
-  } else if (type === "Put" && long_short === "long") {
-    color = "#008080";
-  } else {
-    color = "#daa520";
-  }
-
-  return color;
 };
